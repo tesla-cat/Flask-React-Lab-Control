@@ -2,7 +2,7 @@
 import os, json, ctypes
 
 class VaunixDevices:
-    def __init__(self):
+    def __init__(self, initValues={'freq': 6e9, 'pow': 6}):
         path = os.path.dirname(os.path.abspath(__file__))
         ddl = os.path.join(path, 'vnx_fmsynth.dll')
         self.vnx = ctypes.WinDLL(ddl)
@@ -14,8 +14,8 @@ class VaunixDevices:
         for i in range(self.numDevices):
             self.initDevice(i)
             self.getDeviceRange(i)
-            self.setDeviceValue('freq', 7e9, i)
-            self.setDeviceValue('pow', 7, i)
+            self.setDeviceValue('freq', initValues['freq'], i)
+            self.setDeviceValue('pow', initValues['pow'], i)
             self.getDeviceValues(i)
             self.stopDevice(i)
         print(self.devicesData)
