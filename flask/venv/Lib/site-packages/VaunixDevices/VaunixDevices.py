@@ -20,6 +20,20 @@ class VaunixDevices:
             #self.stopDevice(i)
         print(self.devicesData)
     
+    def handleRequest(self, type, args):
+        try:
+            if type == 'initDevice':
+                return self.initDevice(args['i'])
+            elif type == 'setDeviceValue':
+                self.setDeviceValue(args['key'], args['value'], args['i'])
+                return self.getDeviceValues(args['i'])
+            elif type == 'stopDevice':
+                return self.stopDevice(args['i'])
+            else: 
+                return 'error', 'invalid request type'
+        except Exception as e :
+            return 'error', str(e)
+
     def initDevice(self, i=0):
         result = self.vnx.fnLMS_InitDevice(self.devices[i])
         status = 'success' if result == 0 else 'error'
