@@ -14,10 +14,10 @@ class VaunixDevices:
         for i in range(self.numDevices):
             self.initDevice(i)
             self.getDeviceRange(i)
-            self.setDeviceValue('freq', initValues['freq'], i)
-            self.setDeviceValue('pow', initValues['pow'], i)
+            #self.setDeviceValue('freq', initValues['freq'], i)
+            #self.setDeviceValue('pow', initValues['pow'], i)
             self.getDeviceValues(i)
-            self.stopDevice(i)
+            #self.stopDevice(i)
         print(self.devicesData)
     
     def initDevice(self, i=0):
