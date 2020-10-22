@@ -5,80 +5,58 @@ class VaunixDevices:
     def __init__(self):
         path = os.path.dirname(os.path.abspath(__file__))
         ddl = os.path.join(path, 'vnx_fmsynth.dll')
-        vnx = ctypes.WinDLL(ddl)
-        vnx.fnLMS_SetTestMode(False)        
-        DeviceIDArray = ctypes.c_int * 20
-        Devices = DeviceIDArray()           
-        numDevices = vnx.fnLMS_GetNumDevices()
-        dev_info = vnx.fnLMS_GetDevInfo(Devices)
-        #print('GetDevInfo returned', str(dev_info))
-        self.vnx = vnx; self.Devices = Devices; self.numDevices = numDevices
-        self.devicesInfo = []
-        for i in range(numDevices):
+        self.vnx = ctypes.WinDLL(ddl)
+        self.vnx.fnLMS_SetTestMode(False)
+        self.devices = (ctypes.c_int*20)()
+        self.numDevices = self.vnx.fnLMS_GetNumDevices()
+        self.vnx.fnLMS_GetDevInfo(self.devices) # must do
+        self.devicesData = [None for i in range(self.numDevices)]
+        for i in range(self.numDevices):
             self.initDevice(i)
-        print(self.devicesInfo)
-
-    def initDevice(self, index):
-        vnx = self.vnx; Devices = self.Devices; numDevices = self.numDevices
-        if index >= numDevices: return 'error', 'index out of range'
-        ser_num = vnx.fnLMS_GetSerialNumber(Devices[index])
-        init_dev = vnx.fnLMS_InitDevice(Devices[index])
-        #print('InitDevice %d returned' % index, str(init_dev))
-        min_freq = vnx.fnLMS_GetMinFreq(Devices[index])
-        max_freq = vnx.fnLMS_GetMaxFreq(Devices[index])
-        min_freq_in_MHz = int(min_freq / 100000)
-        max_freq_in_MHz = int(max_freq / 100000)
-        min_power = vnx.fnLMS_GetMinPwr(Devices[index])
-        max_power = vnx.fnLMS_GetMaxPwr(Devices[index])
-        min_pow = min_power / 4
-        max_pow = max_power / 4
-        deviceInfo = {
-            'type': 'VaunixDevice', 
-            'info': {'serialNumber': ser_num},
-            'values':{
-                'frequency': {'unit': 'MHz', 'range': [min_freq_in_MHz, max_freq_in_MHz]},
-                'power': {'unit': 'db', 'range': [min_pow, max_pow]},
-            },
-        }
-        self.devicesInfo.append(deviceInfo)
+            self.getDeviceRange(i)
+            self.setDeviceValue('freq', 7e9, i)
+            self.setDeviceValue('pow', 7, i)
+            self.getDeviceValues(i)
+            self.stopDevice(i)
+        print(self.devicesData)
     
-    def setDevice(self, index, name, value):
-        vnx = self.vnx; Devices = self.Devices; numDevices = self.numDevices
-        if index >= numDevices: return 'error', 'index out of range'
-        if name == 'frequency':
-            freq = value
-            Hz = freq * 1000000
-            frequency = Hz / 10
-            result = vnx.fnLMS_SetFrequency(Devices[index], int(frequency))
-        elif name == 'power':
-            power = value
-            powerlevel = power / .25
-            result = vnx.fnLMS_SetPowerLevel(Devices[index], int(powerlevel))
+    def initDevice(self, i=0):
+        result = self.vnx.fnLMS_InitDevice(self.devices[i])
         status = 'success' if result == 0 else 'error'
-        print(status, result)
+        return status, result
+    
+    def getDeviceRange(self, i=0):
+        freq1 = self.vnx.fnLMS_GetMinFreq(self.devices[i]) * 10
+        freq2 = self.vnx.fnLMS_GetMaxFreq(self.devices[i]) * 10
+        pow1 = self.vnx.fnLMS_GetMinPwr(self.devices[i]) * 0.25
+        pow2 = self.vnx.fnLMS_GetMaxPwr(self.devices[i]) * 0.25
+        self.devicesData[i] = {
+            'freq':{'range': [freq1, freq2], 'unit': 'Hz'},
+            'pow': {'range': [pow1 , pow2 ], 'unit': 'dB'},
+        }
+        return 'success', self.devicesData[i]
+
+    def setDeviceValue(self, key, value, i=0):
+        if key == 'freq':
+            value = int(value / 10)
+            result = self.vnx.fnLMS_SetFrequency(self.devices[i], value)
+        else:
+            pow2 = self.devicesData[i]['pow']['range'][1]
+            value = int( (pow2-value) / 0.25)
+            result = self.vnx.fnLMS_SetPowerLevel(self.devices[i], value)
+        status = 'success' if result == 0 else 'error'
+        return status, result
+    
+    def getDeviceValues(self, i=0):
+        freq = self.vnx.fnLMS_GetFrequency(self.devices[i]) * 10
+        power = self.vnx.fnLMS_GetPowerLevel(self.devices[i]) * 0.25
+        self.devicesData[i]['freq']['value'] = freq
+        self.devicesData[i]['pow']['value'] = power
+        return 'success', {'freq': freq, 'pow': power}
+    
+    def stopDevice(self, i=0):
+        result = self.vnx.fnLMS_CloseDevice(self.devices[i])
+        status = 'success' if result == 0 else 'error'
         return status, result
 
-    def getDevice(self, index):
-        vnx = self.vnx; Devices = self.Devices; numDevices = self.numDevices
-        if index >= numDevices: return 'error', 'index out of range'
-        result = vnx.fnLMS_GetFrequency(Devices[index])
-        result_1 = vnx.fnLMS_GetPowerLevel(Devices[index])
-        freq = (result * 10) / 1000000
-        power = (self.devicesInfo[index]['values']['power']['range'][1]*4 - result_1) / 4
-        res = {'frequency': freq, 'power': power}
-        print(res)
-        return res
-
-    def stopDevice(self, index):
-        vnx = self.vnx; Devices = self.Devices; numDevices = self.numDevices
-        if index >= numDevices: return 'error', 'index out of range'
-        result = vnx.fnLMS_CloseDevice(Devices[index])
-        status = 'success' if result == 0 else 'error'
-        print(status, result)
-        return status, result
-
-vaunixs = VaunixDevices()
-status, result = vaunixs.setDevice(0, 'frequency', 6e3)
-status, result = vaunixs.setDevice(0, 'power', 10)
-result = vaunixs.getDevice(0)
-status, result = vaunixs.stopDevice(0)
+vaunixDevices = VaunixDevices()
