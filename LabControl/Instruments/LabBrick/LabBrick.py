@@ -11,7 +11,7 @@ vnx.fnLMS_GetDevInfo(devices)
 serNums = [ vnx.fnLMS_GetSerialNumber(devices[i]) for i in range(numDevices)]
 serNumToIdx = {}
 for i, serNum in enumerate(serNums): serNumToIdx[serNum] = i
-print(serNumToIdx)
+#print(serNumToIdx)
 
 class LabBrick:
     def __init__(self, serialNumber):
@@ -26,25 +26,27 @@ class LabBrick:
             'pow': {'range': [pow1 , pow2 ], 'unit': 'dB'},
         }
 
-    def setValue(self, key, value):
-        i = self.i
-        if key == 'freq':
-            value = int(value / 10)
-            result = vnx.fnLMS_SetFrequency(devices[i], value)
-        else:
-            value = int(value / 0.25)
-            result = vnx.fnLMS_SetPowerLevel(devices[i], value)
+    def setValues(self, dic):
+        i = self.i 
+        result = 0
+        if 'freq' in dic:
+            result |= vnx.fnLMS_SetFrequency(devices[i], int(dic['freq'] / 10))
+        if 'pow' in dic:
+            result |= vnx.fnLMS_SetPowerLevel(devices[i], int(dic['pow'] / 0.25))
         status = 'success' if result == 0 else 'error'
         return status, result
     
-    def getValues(self):
+    def getValues(self, keys=['freq', 'pow']):
         i = self.i
-        freq = vnx.fnLMS_GetFrequency(devices[i]) * 10
-        pow2 = self.data['pow']['range'][1]
-        power = pow2 - vnx.fnLMS_GetPowerLevel(devices[i]) * 0.25
-        self.data['freq']['value'] = freq
-        self.data['pow']['value'] = power
-        return 'success', {'freq': freq, 'pow': power}
+        res = {}
+        if 'freq' in keys:
+            freq = vnx.fnLMS_GetFrequency(devices[i]) * 10
+            res['freq'] = freq
+        if 'pow' in keys:
+            pow2 = self.data['pow']['range'][1]
+            power = pow2 - vnx.fnLMS_GetPowerLevel(devices[i]) * 0.25
+            res['pow'] = power
+        return 'success', res
 
     def stop(self):
         result = vnx.fnLMS_CloseDevice(devices[i])
@@ -54,7 +56,6 @@ class LabBrick:
 if __name__ == '__main__':
     brick = LabBrick(serialNumber = 24352)
     print(brick.data)
-    brick.setValue('freq', 6e9)
-    brick.setValue('pow', -11)
+    brick.setValues({'freq': 7e9, 'pow': -12})
     print(brick.getValues())
     brick.stop()
