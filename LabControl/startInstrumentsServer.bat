@@ -1,1 +1,1 @@
-py -3.7 D:\Ruiqi\LabControl\startInstrumentsServer.py
+py -3.7 startInstrumentsServer.py

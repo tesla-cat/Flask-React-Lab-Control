@@ -20,10 +20,12 @@ class LabBrick:
         freq1 = vnx.fnLMS_GetMinFreq(devices[i]) * 10
         freq2 = vnx.fnLMS_GetMaxFreq(devices[i]) * 10
         pow1 = vnx.fnLMS_GetMinPwr(devices[i]) * 0.25
-        pow2 = vnx.fnLMS_GetMaxPwr(devices[i]) * 0.25
+        pow2 = self.pow2 = vnx.fnLMS_GetMaxPwr(devices[i]) * 0.25
+        
+        self.name = 'LabBrick: %d' % serialNumber
         self.data = {
-            'freq':{'range': [freq1, freq2], 'unit': 'Hz'},
-            'pow': {'range': [pow1 , pow2 ], 'unit': 'dB'},
+            'freq': { 'hint': 'type: number, unit: Hz, range: %s' % str([freq1, freq2]) },
+            'pow': { 'hint': 'type: number, unit: dB, range: %s' % str([pow1, pow2]) },
         }
 
     def setValues(self, dic):
@@ -43,8 +45,7 @@ class LabBrick:
             freq = vnx.fnLMS_GetFrequency(devices[i]) * 10
             res['freq'] = freq
         if 'pow' in keys:
-            pow2 = self.data['pow']['range'][1]
-            power = pow2 - vnx.fnLMS_GetPowerLevel(devices[i]) * 0.25
+            power = self.pow2 - vnx.fnLMS_GetPowerLevel(devices[i]) * 0.25
             res['pow'] = power
         return 'success', res
 

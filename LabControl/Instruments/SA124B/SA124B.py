@@ -5,9 +5,14 @@ class SA124B:
     def __init__(self, serialNumber, mode):
         handle = self.handle = sa_open_device_by_serial(serialNumber)["handle"]
         self.mode = mode
+
+        self.name = 'SA124B: %d' % serialNumber
         self.data = {
-            'IQ':{'range': [0, 0], 'unit': 'unknown'},
-            'sweep':{'range': [0, 0], 'unit': 'unknown'},
+            'level': { 'hint': 'type: number, example: -10.0' },
+            'center_span': { 'hint': 'type: array, example: (1e9, 100e6), meaning: (center, span)' },
+            'IQ': { 'hint': 'type: array, example: (1, 250e3), meaning: (decimation, bandwidth)' },
+            'sweep_coupling': { 'hint': 'type: array, example: (10e3, 10e3, 0), meaning: (rbw, vbw, reject)' },
+            'acquisition': { 'hint': 'type: array, example: (0, 0), meaning: (detector, scale)' },
         }
     
     def start(self):
@@ -26,6 +31,7 @@ class SA124B:
             sa_config_sweep_coupling(handle, *dic['sweep_coupling'])
         if 'acquisition' in dic:
             sa_config_acquisition(handle, *dic['acquisition'])
+        return 'success', 0
     
     def getValues(self, keys = None):
         if keys == None: keys = self.mode 
