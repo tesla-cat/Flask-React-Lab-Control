@@ -1,5 +1,5 @@
 
-import os, json, ctypes
+import os, ctypes
 
 path = os.path.dirname(os.path.abspath(__file__))
 vnx = ctypes.WinDLL(os.path.join(path, 'vnx_fmsynth.dll'))
@@ -43,7 +43,8 @@ class LabBrick:
         status = 'success' if result == 0 else 'error'
         return status, result
     
-    def getValues(self, keys=['freq', 'pow']):
+    def getValues(self, keys = None):
+        if keys == None: keys = self.data.keys()
         i = self.i
         res = {}
         if 'freq' in keys:

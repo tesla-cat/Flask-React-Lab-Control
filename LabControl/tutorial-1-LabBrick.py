@@ -5,8 +5,6 @@ import rpyc
 Instruments = rpyc.classic.connect("localhost").modules["Instruments"]
 
 brick = Instruments.LabBrick(serialNumber = 24352)
-print('\nbrick.data:\n', brick.data)
 brick.setValues({'freq': 7e9, 'pow': -10})
-print('\nbrick.getValues():\n', brick.getValues())
+print(brick.getValues())
 brick.stop()
-

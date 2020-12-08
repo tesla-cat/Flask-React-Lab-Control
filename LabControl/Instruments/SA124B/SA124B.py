@@ -41,7 +41,7 @@ class SA124B:
         return 'success', 0
     
     def getValues(self, keys = None):
-        if keys == None: keys = self.mode 
+        if keys == None: keys = self.data.keys()
         handle = self.handle
         res = {}
         for key in keys:

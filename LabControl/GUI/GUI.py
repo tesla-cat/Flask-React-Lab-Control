@@ -15,10 +15,7 @@ class Device:
     def setValues(self, dic):
         return 'success', 'setValues'
     def getValues(self, keys):
-        res = {}
-        for key in keys:
-            res[key] = 'some value'
-        return 'success', res
+        return 'success', 'getValues'
     def stop(self):
         return 'success', 'stop'
 
@@ -42,13 +39,13 @@ class GUI:
         
     def makeTab(self, dev):
         rows = []
-        Btns = [ sg.Button(button_text=action, key= '%s~~%s!!%s' % (dev.name, 'self', action)) for action in ['start', 'stop']]
+        Btns = [ sg.Button(action, key= '%s~~%s!!%s' % (dev.name, 'self', action)) for action in ['start', 'stop']]
         rows.append(Btns)
         for valName, spec in dev.data.items():
             valKey = '%s~~%s' % (dev.name, valName)
             Input = sg.In(key = '%s!!%s' % (valKey, 'Input'))
             Text = Txt('click get !', key= '%s!!%s' % (valKey, 'Text'), size=(40,1))
-            Btns = [ sg.Button(button_text=action, key= '%s!!%s' % (valKey, action)) for action in spec['actions']]
+            Btns = [ sg.Button(action, key= '%s!!%s' % (valKey, action)) for action in spec['actions']]
             rows.append([ Txt(valName, font=20), Txt(spec['hint'], color='grey') ])
             if 'set' in spec['actions']: 
                 rows.append([ Txt('set', color='grey'), Input ])
