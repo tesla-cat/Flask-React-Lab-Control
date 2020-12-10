@@ -21,7 +21,7 @@ class LabBrick:
         self.name = name or 'SA124B: %d' % serialNumber
         self.data = {
             'freq': {'actions': ['set', 'get'], 'hint': 'type: number, unit: Hz, range: [%.2e, %.2e]' % (self.freq1, self.freq2) },
-            'pow':  {'actions': ['set', 'get'], 'hint': 'type: number, unit: dB, range: %s' % ( str([self.pow1,  self.pow2]) ) },
+            'pow':  {'actions': ['set', 'get'], 'hint': 'type: number, unit: dBm, range: %s' % ( str([self.pow1,  self.pow2]) ) },
         }
     
     def start(self):
