@@ -109,6 +109,6 @@ class SC5511A:
 if __name__ == '__main__':
   dev = SC5511A(serialNumber= 10002657 )
   print(dev.start())
-  print(dev.setValues({'freq': 11000000000, 'pow': 6, 'output': 0}))
+  print(dev.setValues({'freq': 11e9, 'pow': 6, 'output': 0}))
   print(dev.getValues())
   print(dev.stop())
