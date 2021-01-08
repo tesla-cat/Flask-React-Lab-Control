@@ -1,5 +1,6 @@
 
 from .sadevice.sa_api import *
+import numpy as np
 
 SA124Bdoc = """
     saConfigAcquisition() – Configuring the detector and linear/log scaling
@@ -130,6 +131,9 @@ class SA124B:
             self.data = { **self.data, 'IQ': {'actions': ['get'], 'hint': 'type: array' } }
         if mode =='sweep':
             self.data = { **self.data, 'sweep': {'actions': ['get'], 'hint': 'type: array' } }
+
+        # extra
+        sa_set_timebase(handle, 2)
     
     def start(self):
         modes = {'IQ': SA_IQ, 'sweep': SA_SWEEPING}
@@ -173,6 +177,32 @@ class SA124B:
         handle = self.handle
         sa_close_device(handle)
         return 'success', 0
+
+    #=====================================
+    # device specific 
+    #=====================================
+    def getFreqsAndAmps(self, val):
+        info = val['sweep_info']
+        freqs = np.array([info["start_freq"] + i * info["bin_size"] for i in range(info["sweep_length"])])
+        amps = np.array(val['sweep']['max'])
+        return freqs, amps
+
+    def sweep(self, center, span, N, power):
+        res = span / N
+        assert (res >= 0.1 and res <= 100e3) or (res in [250e3, 6e6]), "res = %.1e\n Available RBWs are [0.1Hz – 100kHz] and 250kHz, 6MHz." % res
+        self.setValues({
+            'center_span': [center, span], 
+            'level': power, 
+            'sweep_coupling': [ res, res, 0], 
+            'acquisition': [SA_MIN_MAX, SA_LOG_SCALE],
+        })
+        self.start()
+        freqs, amps = self.getFreqsAndAmps(self.getValues()[1])
+        return freqs, amps
+
+    def sweepSingle(self, center, power):
+        freqs, amps = self.sweep(center, 1, 1, power)
+        return np.mean(amps)
 
 if __name__ == '__main__':
     sa124B_IQ = SA124B(serialNumber = 19184645, mode = 'IQ')
