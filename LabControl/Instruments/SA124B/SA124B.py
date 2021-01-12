@@ -164,12 +164,12 @@ class SA124B:
             if 'value' in self.data[key]:
                 res[key] = self.data[key]['value']
         if 'IQ' in keys:
-            res = sa_get_IQ_32f(handle)
+            res = sa_get_IQ_64f(handle)
             IQ = res["iq"]
             res['IQ'] = IQ
         if 'sweep' in keys:
             sweep_info = sa_query_sweep_info(handle)
-            sweep = sa_get_sweep_32f(handle)
+            sweep = sa_get_sweep_64f(handle)
             res['sweep_info'] = sweep_info; res['sweep'] = sweep
         return 'success', res
 
@@ -187,9 +187,15 @@ class SA124B:
         amps = np.array(val['sweep']['max'])
         return freqs, amps
 
-    def sweep(self, center, span, N, power):
-        res = span / N
-        assert (res >= 0.1 and res <= 100e3) or (res in [250e3, 6e6]), "res = %.1e\n Available RBWs are [0.1Hz – 100kHz] and 250kHz, 6MHz." % res
+    def initSweep(self, center, span, N, power):
+        res = int(span / N)
+        #assert (res >= 0.1 and res <= 100e3) or (res in [250e3, 6e6]), "res = %.1e\n Available RBWs are [0.1Hz – 100kHz] and 250kHz, 6MHz." % res
+        if res > 100e3 and res < 250e3:
+            res = 100e3
+        elif res >= 250e3 and res < 6e6:
+            res = 250e3
+        elif res >= 6e6:
+            res = 6e6
         self.setValues({
             'center_span': [center, span], 
             'level': power, 
@@ -200,9 +206,17 @@ class SA124B:
         freqs, amps = self.getFreqsAndAmps(self.getValues()[1])
         return freqs, amps
 
-    def sweepSingle(self, center, power):
-        freqs, amps = self.sweep(center, 1, 1, power)
-        return np.mean(amps)
+    def initSweepSingle(self, center, power):
+        return self.initSweep(center, 250e3, 1, power)
+    
+    def getSweep(self, length):
+        sweep_min = np.zeros(length).astype(np.float64)
+        sweep_max = np.zeros(length).astype(np.float64)
+        saGetSweep_64f(self.handle, sweep_min, sweep_max)
+        return sweep_max
+    def getSweepSingle(self, length):
+        idx = length // 2
+        return self.getSweep(length)[idx]
 
 if __name__ == '__main__':
     sa124B_IQ = SA124B(serialNumber = 19184645, mode = 'IQ')
