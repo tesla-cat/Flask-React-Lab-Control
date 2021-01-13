@@ -134,6 +134,7 @@ class SA124B:
 
         # extra
         sa_set_timebase(handle, 2)
+        sa_config_RBW_shape(handle, SA_RBW_SHAPE_FLATTOP)
     
     def start(self):
         modes = {'IQ': SA_IQ, 'sweep': SA_SWEEPING}
@@ -196,11 +197,14 @@ class SA124B:
             res = 250e3
         elif res >= 6e6:
             res = 6e6
+        print('@SA124B.initSweep: resolution=', res)
+        # Generally, set reject to true for continuous signals, and false to catch short duration signals at a known frequency
+        reject = SA_TRUE
         self.setValues({
             'center_span': [center, span], 
             'level': power, 
-            'sweep_coupling': [ res, res, 0], 
-            'acquisition': [SA_MIN_MAX, SA_LOG_SCALE],
+            'sweep_coupling': [ res, res, reject], 
+            'acquisition': [SA_AVERAGE, SA_LOG_SCALE],
         })
         self.start()
         freqs, amps = self.getFreqsAndAmps(self.getValues()[1])

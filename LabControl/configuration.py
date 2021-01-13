@@ -26,10 +26,10 @@ def IQ_imbalance(g, phi):
 long_redout_len = 3600
 readout_len = 400
 
-qubit_IF = int(50e6)
+qubit_IF = int(-50e6)
 rr_IF = int(50e6)
 
-qubit_LO = int(6.345e9)
+qubit_LO = int(6e9)
 rr_LO = int(4.755e9)
 
 config = {

@@ -49,18 +49,27 @@ dll = CDLL(os.path.join(path, 'sc5511a.dll'))
 
 dll.sc5511a_open_device.argtypes = [c_char_p]
 dll.sc5511a_open_device.restype = c_void_p
+
 dll.sc5511a_close_device.argtypes = [c_void_p]
 dll.sc5511a_close_device.restype = c_int
+
 dll.sc5511a_set_freq.argtypes = [c_void_p, c_ulonglong]
 dll.sc5511a_set_freq.restype = c_int
+
 dll.sc5511a_set_level.argtypes = [c_void_p, c_float]
 dll.sc5511a_set_level.restype = c_int
+
 dll.sc5511a_set_output.argtypes = [c_void_p, c_ubyte]
 dll.sc5511a_set_output.restype = c_int
+
 dll.sc5511a_get_rf_parameters.argtypes = [c_void_p, POINTER(RFParameters)]
 dll.sc5511a_get_rf_parameters.restype = c_int
+
 dll.sc5511a_get_device_status.argtypes = [c_void_p, POINTER(DeviceStatus)]
 dll.sc5511a_get_device_status.restype = c_int
+
+dll.sc5511a_set_clock_reference.argtypes = [c_void_p, c_ubyte, c_ubyte]
+dll.sc5511a_set_clock_reference.restype = c_int
 
 class SC5511A:
   def __init__(self, serialNumber, name=None):
@@ -75,6 +84,7 @@ class SC5511A:
 
   def start(self):
     self.handle = dll.sc5511a_open_device(str(self.serialNumber).encode())
+    dll.sc5511a_set_clock_reference(self.handle, 1, 1)
     status = 'success' if self.handle else 'error'
     return status, self.handle
   
@@ -109,6 +119,6 @@ class SC5511A:
 if __name__ == '__main__':
   dev = SC5511A(serialNumber= 10002657 )
   print(dev.start())
-  print(dev.setValues({'freq': 11e9, 'pow': 6, 'output': 0}))
+  print(dev.setValues({'freq': 6e9, 'pow': -10, 'output': 1}))
   print(dev.getValues())
-  print(dev.stop())
+  #print(dev.stop())
