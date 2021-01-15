@@ -186,7 +186,7 @@ config = {
 
         'const_wf': {
             'type': 'constant',
-            'sample': 0.4
+            'sample': 0.3
         },
 
         'zero_wf': {
