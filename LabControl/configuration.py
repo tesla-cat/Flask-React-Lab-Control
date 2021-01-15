@@ -45,6 +45,12 @@ config = {
                 2: {'offset': 0.0},  # qubit Q
                 3: {'offset': 0.0},  # RR I
                 4: {'offset': 0.0},  # RR Q
+                5: {'offset': 0.0},  
+                6: {'offset': 0.0},  
+                7: {'offset': 0.0},  
+                8: {'offset': 0.0},  
+                9: {'offset': 0.0},  
+                10: {'offset': 0.0},  
             },
             'digital_outputs': {},
             'analog_inputs': {
@@ -57,8 +63,8 @@ config = {
 
         'qubit': {
             'mixInputs': {
-                'I': ('con1', 1),
-                'Q': ('con1', 2),
+                'I': ('con1', 9),
+                'Q': ('con1', 10),
                 'lo_frequency': qubit_LO,
                 'mixer': 'mixer_qubit'
             },
@@ -75,8 +81,8 @@ config = {
 
         'rr': {
             'mixInputs': {
-                'I': ('con1', 3),
-                'Q': ('con1', 4),
+                'I': ('con1', 1),
+                'Q': ('con1', 2),
                 'lo_frequency': rr_LO,
                 'mixer': 'mixer_RR'
             },
@@ -186,7 +192,7 @@ config = {
 
         'const_wf': {
             'type': 'constant',
-            'sample': 0.3
+            'sample': 0.2
         },
 
         'zero_wf': {
