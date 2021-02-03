@@ -13,8 +13,9 @@ firebase.initializeApp({
   measurementId: "G-80EYHZ0BF4"
 })
 const db = firebase.firestore()
+const dataDB = db.collection('data')
 
 spawn('python',['./getDataV2.py']).stdout.on('data', (data)=>{
   console.log('sent')
-  db.collection('data').doc('qcrew').set({ json: data.toString() })
+  dataDB.doc('qcrew').set({ json: data.toString() })
 })
