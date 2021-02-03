@@ -4,8 +4,8 @@
     "app.js.map": "/LabTools/static/js/app.9ac5c208.chunk.js.map",
     "runtime~app.js": "/LabTools/static/js/runtime~app.f78fe9e5.js",
     "runtime~app.js.map": "/LabTools/static/js/runtime~app.f78fe9e5.js.map",
-    "static/js/2.dd98b134.chunk.js": "/LabTools/static/js/2.dd98b134.chunk.js",
-    "static/js/2.dd98b134.chunk.js.map": "/LabTools/static/js/2.dd98b134.chunk.js.map",
+    "static/js/2.eb7848d3.chunk.js": "/LabTools/static/js/2.eb7848d3.chunk.js",
+    "static/js/2.eb7848d3.chunk.js.map": "/LabTools/static/js/2.eb7848d3.chunk.js.map",
     "fonts/AntDesign.ttf": "/LabTools/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/LabTools/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/LabTools/./fonts/Feather.ttf",
@@ -25,11 +25,11 @@
     "index.html": "/LabTools/index.html",
     "manifest.json": "/LabTools/manifest.json",
     "serve.json": "/LabTools/serve.json",
-    "static/js/2.dd98b134.chunk.js.LICENSE.txt": "/LabTools/static/js/2.dd98b134.chunk.js.LICENSE.txt"
+    "static/js/2.eb7848d3.chunk.js.LICENSE.txt": "/LabTools/static/js/2.eb7848d3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime~app.f78fe9e5.js",
-    "static/js/2.dd98b134.chunk.js",
+    "static/js/2.eb7848d3.chunk.js",
     "static/js/app.9ac5c208.chunk.js"
   ]
 }
