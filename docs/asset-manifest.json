@@ -1,0 +1,35 @@
+{
+  "files": {
+    "app.js": "/LabTools/static/js/app.9ac5c208.chunk.js",
+    "app.js.map": "/LabTools/static/js/app.9ac5c208.chunk.js.map",
+    "runtime~app.js": "/LabTools/static/js/runtime~app.f78fe9e5.js",
+    "runtime~app.js.map": "/LabTools/static/js/runtime~app.f78fe9e5.js.map",
+    "static/js/2.dd98b134.chunk.js": "/LabTools/static/js/2.dd98b134.chunk.js",
+    "static/js/2.dd98b134.chunk.js.map": "/LabTools/static/js/2.dd98b134.chunk.js.map",
+    "fonts/AntDesign.ttf": "/LabTools/./fonts/AntDesign.ttf",
+    "fonts/Entypo.ttf": "/LabTools/./fonts/Entypo.ttf",
+    "fonts/Feather.ttf": "/LabTools/./fonts/Feather.ttf",
+    "fonts/FontAwesome.ttf": "/LabTools/./fonts/FontAwesome.ttf",
+    "fonts/FontAwesome5_Brands.ttf": "/LabTools/./fonts/FontAwesome5_Brands.ttf",
+    "fonts/FontAwesome5_Solid.ttf": "/LabTools/./fonts/FontAwesome5_Solid.ttf",
+    "fonts/Fontisto.ttf": "/LabTools/./fonts/Fontisto.ttf",
+    "fonts/Foundation.ttf": "/LabTools/./fonts/Foundation.ttf",
+    "fonts/Ionicons.ttf": "/LabTools/./fonts/Ionicons.ttf",
+    "fonts/MaterialCommunityIcons.ttf": "/LabTools/./fonts/MaterialCommunityIcons.ttf",
+    "fonts/MaterialIcons.ttf": "/LabTools/./fonts/MaterialIcons.ttf",
+    "fonts/SimpleLineIcons.ttf": "/LabTools/./fonts/SimpleLineIcons.ttf",
+    "fonts/SpaceMono-Regular.ttf": "/LabTools/./fonts/SpaceMono-Regular.ttf",
+    "favicon-16.png": "/LabTools/favicon-16.png",
+    "favicon-32.png": "/LabTools/favicon-32.png",
+    "favicon.ico": "/LabTools/favicon.ico",
+    "index.html": "/LabTools/index.html",
+    "manifest.json": "/LabTools/manifest.json",
+    "serve.json": "/LabTools/serve.json",
+    "static/js/2.dd98b134.chunk.js.LICENSE.txt": "/LabTools/static/js/2.dd98b134.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime~app.f78fe9e5.js",
+    "static/js/2.dd98b134.chunk.js",
+    "static/js/app.9ac5c208.chunk.js"
+  ]
+}
