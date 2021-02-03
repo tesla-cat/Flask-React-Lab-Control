@@ -48,15 +48,17 @@ type FigType = { id: string, x: number[], y: number[], xl: string, yl: string }
 function Fig(p: FigType){
   const [show, setShow] = useState(true)
   const [log, setLog] = useState(false)
+  useEffect(()=>{
+    setShow(false)
+  },[])
   const data = [ { x: p.x, y:  log? logFn(p.y): p.y } ]
   const font = { family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }
   const layout = { xaxis: { title: { text: p.xl, font } }, yaxis: { title: { text: p.yl, font } } } 
   return(
     <View style={{width: isPC? '30%':'100%', margin: isPC? 10: 0 }}>
-      <View style={{flexDirection: 'row', padding: 10}}>
-        <Text style={{fontSize: 20, fontWeight:'bold', marginLeft: 10}}>{p.yl}</Text>
-        <Text style={{fontSize: 20, fontWeight:'bold', marginLeft: 10, color:'blue'}}>{last(p.y)}</Text>
-        <View style={{flex: 1}}></View>
+      <View style={{flexDirection: 'row', padding: 10, alignItems:'center'}}>
+        <Text style={{flex: 1, fontSize: 20, fontWeight:'bold', marginLeft: 10}}>{p.yl}</Text>
+        <Text style={{flex: 1, fontSize: 20, fontWeight:'bold', marginLeft: 10, color:'blue'}}>{last(p.y)}</Text>
         <View style={{alignItems:'center', marginHorizontal:20}}>
           <Switch value={log} onValueChange={setLog}/>
           <Text>log10</Text>
