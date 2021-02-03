@@ -1,7 +1,7 @@
 import * as Linking from 'expo-linking';
 
 export default {
-  prefixes: [Linking.makeUrl('/')],
+  prefixes: [Linking.makeUrl('https://tesla-cat.github.io/LabTools')],
   config: {
     screens: {
       Root: {

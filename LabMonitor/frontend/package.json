@@ -43,6 +43,5 @@
     "jest-expo": "~40.0.0",
     "typescript": "~4.0.0"
   },
-  "private": true,
-  "homepage": "https://tesla-cat.github.io/LabTools/"
+  "private": true
 }
