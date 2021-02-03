@@ -35,7 +35,7 @@ Note:
 """
 
 def parseChannels():
-    filename = r'C:\Users\e0134117\Desktop\fridge\log\21-01-26\Channels 21-01-26.log'
+    filename = r'C:\Users\Rick Lovelace\Documents\GitHub\Flask-React-Lab-Control\LabControl\special-1-fridge sensors\log\21-01-26\Channels 21-01-26.log'
     with open(filename) as f:
         content = f.readlines()
     for line in content[0:1]:
@@ -53,7 +53,7 @@ def parseChannels():
             print(v)
 
 def parseFlowmeter():
-    filename = r'C:\Users\e0134117\Desktop\fridge\log\21-01-26\Flowmeter 21-01-26.log'
+    filename = r'C:\Users\Rick Lovelace\Documents\GitHub\Flask-React-Lab-Control\LabControl\special-1-fridge sensors\log\21-01-26\Flowmeter 21-01-26.log'
     with open(filename) as f:
         content = f.readlines()
     for line in content[0:1]:
@@ -67,7 +67,7 @@ def parseFlowmeter():
         print('unknown1', unknown1)
 
 def parseMaxigauge():
-    filename = r'C:\Users\e0134117\Desktop\fridge\log\21-01-26\maxigauge 21-01-26.log'
+    filename = r'C:\Users\Rick Lovelace\Documents\GitHub\Flask-React-Lab-Control\LabControl\special-1-fridge sensors\log\21-01-26\maxigauge 21-01-26.log'
     with open(filename) as f:
         content = f.readlines()
     for line in content[0:1]:
@@ -83,7 +83,7 @@ def parseMaxigauge():
             print(v)
 
 def parseStatus():
-    filename = r'C:\Users\e0134117\Desktop\fridge\log\21-01-26\Status_21-01-26.log'
+    filename = r'C:\Users\Rick Lovelace\Documents\GitHub\Flask-React-Lab-Control\LabControl\special-1-fridge sensors\log\21-01-26\Status_21-01-26.log'
     with open(filename) as f:
         content = f.readlines()
     for line in content[0:1]:
@@ -99,8 +99,8 @@ def parseStatus():
             print(v)
         
 if __name__ == '__main__':
-    #parseChannels()
-    #parseFlowmeter()
-    #parseMaxigauge()
+    parseChannels()
+    parseFlowmeter()
+    parseMaxigauge()
     parseStatus()
 
