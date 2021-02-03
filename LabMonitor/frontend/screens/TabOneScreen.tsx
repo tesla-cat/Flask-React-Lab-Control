@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import { Text, View, ScrollView } from 'react-native'
+import { Text, View, ScrollView, Switch, Button, Dimensions } from 'react-native'
 
 //======================================
 import firebase from "firebase/app"
 import "firebase/firestore"
 import Plot from 'react-plotly.js'
-import { Button, Dimensions } from 'react-native'
 
 firebase.initializeApp({
   apiKey: "AIzaSyDuNZv1DauGOJWmbemUzCkXajt5La0wN-A",
@@ -48,7 +47,8 @@ export default function Data(){
 type FigType = { id: string, x: number[], y: number[], xl: string, yl: string }
 function Fig(p: FigType){
   const [show, setShow] = useState(true)
-  const data = [ { x: p.x, y: p.y} ]
+  const [log, setLog] = useState(false)
+  const data = [ { x: p.x, y:  log? logFn(p.y): p.y } ]
   const font = { family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }
   const layout = { xaxis: { title: { text: p.xl, font } }, yaxis: { title: { text: p.yl, font } } } 
   return(
@@ -57,6 +57,10 @@ function Fig(p: FigType){
         <Text style={{fontSize: 20, fontWeight:'bold', marginLeft: 10}}>{p.yl}</Text>
         <Text style={{fontSize: 20, fontWeight:'bold', marginLeft: 10, color:'blue'}}>{last(p.y)}</Text>
         <View style={{flex: 1}}></View>
+        <View style={{alignItems:'center', marginHorizontal:20}}>
+          <Switch value={log} onValueChange={setLog}/>
+          <Text>log10</Text>
+        </View>
         <Button title={show? 'hide': 'show'} onPress={()=>{ setShow(!show) }}></Button>
       </View>
       <View style={{flex: 1, display: show?'flex':'none'}}>
@@ -66,6 +70,7 @@ function Fig(p: FigType){
   )
 }
 
+function logFn(arr: number[]){ return arr.map(a=> Math.log10(a) ) }
 function last(a: any[]){ return a[a.length-1] }
 
 function parseData(data: dataType){
