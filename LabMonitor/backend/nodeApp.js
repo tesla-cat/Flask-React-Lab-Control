@@ -15,7 +15,7 @@ firebase.initializeApp({
 const db = firebase.firestore()
 const dataDB = db.collection('data')
 
-spawn('python',['./getDataV2.py']).stdout.on('data', (data)=>{
-  console.log('sent')
+spawn('python',['./getData.py']).stdout.on('data', (data)=>{
+  console.log('data updated to the internet (every 30 s)')
   dataDB.doc('qcrew').set({ json: data.toString() })
 })
