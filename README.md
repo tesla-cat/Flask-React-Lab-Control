@@ -13,7 +13,7 @@ List of selected experiments:
 
 - [tutorial-2-2-SA124B-MixerTuning.pdf](./LabControl/tutorial-2-2-SA124B-MixerTuning/tutorial-2-2-SA124B-MixerTuning.pdf), [ipynb](./LabControl/tutorial-2-2-SA124B-MixerTuning/tutorial-2-2-SA124B-MixerTuning.ipynb)
 
-The Python library [RPyC - Transparent, Symmetric Distributed Computing](https://rpyc.readthedocs.io/en/latest/) has been used to achieve remote procedure calls.
+The Python library [RPyC](https://rpyc.readthedocs.io/en/latest/) has been used to achieve remote procedure calls.
 
 A GUI to read/write register values of the equipment is written using the Python library [PySimpleGUI](https://pysimplegui.readthedocs.io/en/latest/).
 
@@ -27,7 +27,7 @@ This part contains different ways of acquiring lab data, such as communication w
 
 These acquired data are sent to a remote server on the internet **for FREE**, specifically to [Firebase by Google](https://firebase.google.com/docs/web/setup). The `Firebase` SDK is used in the `Node.js` environment, which calls `Python` subprocess through the the built in [child_process.js](https://nodejs.org/api/child_process.html#child_process_child_process) module. This combination uses `Node.js`'s **asynchronous processing** strength and `Python`'s **data processing** strength. It is recommended to use `yarn` instead of the built-in `npm` with `Node.js`.
 
-In principle, one only has to modify `Python file to add/change features, as the `Node.js` part is general and robust. However, in case one needs to modify `Node.js` part, one must learn `JavaScript & TypeScript`, which are less used by physicists.
+In principle, one only has to modify `Python` file to add/change features, as the `Node.js` part is general and robust. However, in case one needs to modify `Node.js` part, one must learn `JavaScript & TypeScript`, which are less used by physicists.
 
 The frontend App is a Web App and it is hosted by [GitHub Pages](https://pages.github.com/) **for FREE**. It is developed with the [React.js](https://reactjs.org/docs/getting-started.html) framework by Facebook, with the help of [Expo CLI](https://docs.expo.io/versions/latest/). The fronted App listens for real time updates from the `Firebase` server, displays the data as a table and plots its history.
 
