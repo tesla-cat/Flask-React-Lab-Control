@@ -16,18 +16,20 @@ here are the main pressures and temperatures we want
 """
 
 def parse(filename, getVarFunc, limit=100):
-  with open(filename) as f:
-    content = f.readlines()
   timeArr = []
   varArr = []
-  for line in content[-limit:]:
-    line = line.strip()
-    blocks = line.split(',')
-    #date = blocks[0]
-    t = blocks[1]
-    timeArr.append(t)
-    varArr.append( getVarFunc( blocks ) )
-  timeArr = np.array(timeArr).tolist()
+  try:
+    with open(filename) as f:
+      content = f.readlines()
+    for line in content[-limit:]:
+      line = line.strip()
+      blocks = line.split(',')
+      #date = blocks[0]
+      t = blocks[1]
+      timeArr.append(t)
+      varArr.append( getVarFunc( blocks ) )
+  except:
+    pass
   varArr = np.array(varArr).astype(np.float)
   return timeArr, varArr
 

@@ -19,6 +19,7 @@ def getData():
   timeT2, tempArr2 = parse(tempFiles[1], getVarTemperature)
   timeT3, tempArr3 = parse(tempFiles[2], getVarTemperature)
   timeT4, tempArr4 = parse(tempFiles[3], getVarTemperature)
+  t = datetime.now().strftime('%Y/%m/%d-%H:%M:%S')
   return {
     'xs': [
       { 'l': 'time', 'x': timeP },
@@ -45,6 +46,7 @@ def getData():
       { 'l': 'S2 [kPa] pressure', 'y': sensArr[:, 3].tolist(), 'x': 5 },
       { 'l': 'S3 [C] temperature', 'y': sensArr[:, 4].tolist(), 'x': 5 },
     ],
+    'msg': 'updated: %s' % (t),
   }
 
 def sendJsonData(data):
