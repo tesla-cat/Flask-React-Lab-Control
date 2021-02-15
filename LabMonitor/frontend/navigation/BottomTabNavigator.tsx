@@ -9,6 +9,8 @@ import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
+import {View, Text, Image} from 'react-native'
+
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
@@ -52,7 +54,21 @@ function TabOneNavigator() {
       <TabOneStack.Screen
         name="TabOneScreen"
         component={TabOneScreen}
-        options={{ headerTitle: 'Qcrew Lab Monitor' }}
+        options={{ headerTitle: ()=>(
+          <View style={{flexDirection:'row', alignItems:'center'}}>
+            <Image
+              style={{height:40, width: 40}}
+              source={{uri: require('../assets/images/HAL-9000.png')}}
+            /> 
+            <Text style={{fontSize:20, fontWeight:'bold', color:'blue', marginHorizontal:20}}>
+              HAL 9000
+            </Text>
+            <a style={{color:'grey'}} 
+              href='https://github.com/tesla-cat/LabTools/tree/master/LabMonitor'
+              target='_blanck'
+            >src</a>
+          </View>
+        )}}
       />
     </TabOneStack.Navigator>
   );

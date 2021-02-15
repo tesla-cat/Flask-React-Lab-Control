@@ -22,7 +22,7 @@ const dataDB = db.collection('data')
 const {width, height} = Dimensions.get('window')
 const isPC = width > height
 
-type dataType = { json?: string }
+type dataType = { json?: string, time?: any }
 type varListType = {
   xs: { l: string, x: number[] }[],
   ys: { l: string, y: number[], x: number }[],
@@ -54,18 +54,23 @@ function Fig(p: FigType){
   const data = [ { x: p.x, y:  log? logFn(p.y): p.y } ]
   const font = { family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }
   const layout = { xaxis: { title: { text: p.xl, font } }, yaxis: { title: { text: p.yl, font } } } 
+  const display = show?'flex':'none'
   return(
-    <View style={{width: isPC? '30%':'100%', margin: isPC? 10: 0 }}>
+    <View style={{width: isPC? '60%':'100%', margin: isPC? 10: 0 }}>
       <View style={{flexDirection: 'row', padding: 10, alignItems:'center'}}>
-        <Text style={{flex: 1, fontSize: 20, fontWeight:'bold', marginLeft: 10}}>{p.yl}</Text>
-        <Text style={{flex: 1, fontSize: 20, fontWeight:'bold', marginLeft: 10, color:'blue'}}>{last(p.y)}</Text>
-        <View style={{alignItems:'center', marginHorizontal:20}}>
+        <Text style={{flex: 1, fontSize: 20, fontWeight:'bold', marginLeft: 10}}>
+          {p.yl}
+        </Text>
+        <Text style={{flex: 1, fontSize: 20, fontWeight:'bold', marginLeft: 10, color:'blue'}}>
+          {last(p.y).toExponential(4)}
+        </Text>
+        <View style={{alignItems:'center', marginHorizontal:20, display}}>
           <Switch value={log} onValueChange={setLog}/>
           <Text>log10</Text>
         </View>
-        <Button title={show? 'hide': 'show'} onPress={()=>{ setShow(!show) }}></Button>
+        <Button title={show? 'hide': 'plot'} onPress={()=>{ setShow(!show) }}></Button>
       </View>
-      <View style={{flex: 1, display: show?'flex':'none'}}>
+      <View style={{flex: 1, display}}>
         <Plot data={data} layout={layout}/>
       </View>
     </View>
