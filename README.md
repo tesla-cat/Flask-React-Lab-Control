@@ -10,7 +10,8 @@ This part contains various scripts to control lab equipment such as the signal g
 Their application in quantum experiments such as IQ mixer tuning are given as tutorials. 
 
 List of selected experiments:
-    - [tutorial-2-2-SA124B-MixerTuning.pdf](./LabControl/tutorial-2-2-SA124B-MixerTuning/tutorial-2-2-SA124B-MixerTuning.pdf), [ipynb](./LabControl/tutorial-2-2-SA124B-MixerTuning/tutorial-2-2-SA124B-MixerTuning.ipynb)
+
+- [tutorial-2-2-SA124B-MixerTuning.pdf](./LabControl/tutorial-2-2-SA124B-MixerTuning/tutorial-2-2-SA124B-MixerTuning.pdf), [ipynb](./LabControl/tutorial-2-2-SA124B-MixerTuning/tutorial-2-2-SA124B-MixerTuning.ipynb)
 
 The Python library [RPyC - Transparent, Symmetric Distributed Computing](https://rpyc.readthedocs.io/en/latest/) has been used to achieve remote procedure calls.
 
@@ -35,5 +36,6 @@ The frontend App is a Web App and it is hosted by [GitHub Pages](https://pages.g
 To understand this part, you need to know: `Altium PCB Designer`, `Gerber`.
 
 List of PCBs:
-    - [ADRF5020 SPDT RF switch](./RF-Electronics/ADRF5020/ADRF5020-Gerbers.zip)
+
+- [ADRF5020 SPDT RF switch](./RF-Electronics/ADRF5020/ADRF5020-Gerbers.zip)
 
