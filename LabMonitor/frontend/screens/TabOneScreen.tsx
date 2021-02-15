@@ -26,6 +26,7 @@ type dataType = { json?: string, time?: any }
 type varListType = {
   xs: { l: string, x: number[] }[],
   ys: { l: string, y: number[], x: number }[],
+  msg: string,
 }
 
 export default function Data(){
@@ -36,9 +37,11 @@ export default function Data(){
   if(!varList) return null
   return(
     <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap:'wrap', justifyContent:'center'}}>
+      <Text style={{color:'gray', margin:5}}>msg: {varList.msg}</Text>
       {varList.ys.map((y, idx)=>{
         const x = varList.xs[y.x]
-        return <Fig id={`fig${idx}`} x={x.x} y={y.y} xl={x.l} yl={y.l}/>
+        const id = `fig${idx}`
+        return <Fig key={id} id={id} x={x.x} y={y.y} xl={x.l} yl={y.l}/>
       })}
     </ScrollView>
   )
@@ -62,7 +65,7 @@ function Fig(p: FigType){
           {p.yl}
         </Text>
         <Text style={{flex: 1, fontSize: 20, fontWeight:'bold', marginLeft: 10, color:'blue'}}>
-          {last(p.y).toExponential(4)}
+          {last(p.y)?.toExponential(4)}
         </Text>
         <View style={{alignItems:'center', marginHorizontal:20, display}}>
           <Switch value={log} onValueChange={setLog}/>
