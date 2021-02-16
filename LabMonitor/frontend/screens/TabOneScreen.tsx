@@ -37,7 +37,7 @@ export default function Data(){
   if(!varList) return null
   return(
     <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap:'wrap', justifyContent:'center'}}>
-      <Text style={{color:'gray', margin:5}}>msg: {varList.msg}</Text>
+      <Text style={{color:'gray', margin:5, width:'100%'}}>msg: {varList.msg}</Text>
       {varList.ys.map((y, idx)=>{
         const x = varList.xs[y.x]
         const id = `fig${idx}`
