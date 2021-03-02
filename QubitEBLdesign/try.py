@@ -47,7 +47,7 @@ def part23d(
 if __name__ == '__main__':
   parts = [part1, part23a, part23b, part23c, part23d]
   lib = gdspy.GdsLibrary()
-  for i, part in enumerate(parts):
+  for i, part in enumerate(reversed(parts)):
     c1 = lib.new_cell('c%d' % i)
     c1.add(part()) 
     c1.write_svg('./try/part %d.svg' % i)
