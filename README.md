@@ -21,6 +21,60 @@ A GUI to read/write register values of the equipment is written using the Python
 
 ### [Web App Homepage](https://tesla-cat.github.io/LabTools)
 
+### Usage
+
+- In most cases (99.9999...% with 100 0s), you only need to modify the [`./LabMonitor/backend/getData.py`](./LabMonitor/backend/getData.py) file. One can easily see how it works.
+
+- After modifying `getData()` function, execute
+
+```bash
+cd ./LabMonitor/backend
+node nodeApp.js
+```
+
+- This was put into a simple `.bat` file in the lab computer so that users who are not familiar with command line can simply double click on the file to execute
+
+```python
+def getData():
+  timeS, sensArr = sen.read()
+  timeP, presArr = parse(presFile, getVarPressure)
+  timeT1, tempArr1 = parse(tempFiles[0], getVarTemperature)
+  timeT2, tempArr2 = parse(tempFiles[1], getVarTemperature)
+  timeT3, tempArr3 = parse(tempFiles[2], getVarTemperature)
+  timeT4, tempArr4 = parse(tempFiles[3], getVarTemperature)
+  t = datetime.now().strftime('%Y/%m/%d-%H:%M:%S')
+  return {
+    'xs': [
+      { 'l': 'time', 'x': timeP },
+      
+      { 'l': 'time', 'x': timeT1 },
+      { 'l': 'time', 'x': timeT2 },
+      { 'l': 'time', 'x': timeT3 },
+      { 'l': 'time', 'x': timeT4 },
+
+      { 'l': 'time', 'x': timeS },
+    ],
+    'ys': [
+      { 'l': 'P1 [mbar] OVC', 'y': presArr[:, 0].tolist(), 'x': 0 },
+      { 'l': 'P2 [mbar] still', 'y': presArr[:, 1].tolist(), 'x': 0 },
+      { 'l': 'P5 [mbar] tank', 'y': presArr[:, 4].tolist(), 'x': 0 },
+      
+      { 'l': 'T1 [K] 50K', 'y': tempArr1.tolist(), 'x': 1 },
+      { 'l': 'T2 [K] 4K', 'y': tempArr2.tolist(), 'x': 2 },
+      { 'l': 'T3 [K] still', 'y': tempArr3.tolist(), 'x': 3 },
+      { 'l': 'T4 [K] MXC', 'y': tempArr4.tolist(), 'x': 4 },
+
+      # b'freq: 209, flow (L/min): 19, voltage:1.44, pressure (kPa): 384.12, temperature (\xc2\xbaC): 18.56\r'
+      { 'l': 'S1 [L/min] flow', 'y': sensArr[:, 1].tolist(), 'x': 5 },
+      { 'l': 'S2 [kPa] pressure', 'y': sensArr[:, 3].tolist(), 'x': 5 },
+      { 'l': 'S3 [C] temperature', 'y': sensArr[:, 4].tolist(), 'x': 5 },
+    ],
+    'msg': 'updated: %s' % (t),
+  }
+```
+
+### Details
+
 To understand this part, you need to know: `Arduino (C++)`, `ESP32`, `Python`, `Node.js`, `yarn`, `JavaScript & TypeScript`, `React.js by Facebook`, `Firebase by Google`.
 
 This part contains different ways of acquiring lab data, such as communication with the IoT microcontroller [ESP32](https://www.espressif.com/en/products/socs/esp32) (which in turn communicates with various sensors via different protocols) and parsing log files. It is recommended to program the `ESP32` board with [Arduino (C++)](https://www.arduino.cc/reference/en/) IDE.
