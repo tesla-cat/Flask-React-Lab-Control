@@ -44,8 +44,20 @@ def part23d(
   p5 = gdspy.boolean(p3, p4, 'or', precision=1e-6, max_points=1e6)
   return [p5]
 
+def part23e():
+  # jump
+  pass
+
+def part4567():
+  w1 = 0.2
+  p1 = gdspy.FlexPath([(0.5,-1), (-0.4,-1), (-0.4,1), (0.5,1)], w1)
+  rect1 = gdspy.Rectangle((0.5, -1-w1/2), (-0.4-0.3, 1+w1/2))
+  p2 = gdspy.boolean(rect1, p1, 'not')
+  p2.layers = [1, 2]
+  return [p1, p2]
+
 if __name__ == '__main__':
-  parts = [part1, part23a, part23b, part23c, part23d]
+  parts = [part1, part23a, part23b, part23c, part23d, part4567]
   lib = gdspy.GdsLibrary()
   for i, part in enumerate(reversed(parts)):
     c1 = lib.new_cell('c%d' % i)
