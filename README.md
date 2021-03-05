@@ -93,3 +93,14 @@ List of PCBs:
 
 - [ADRF5020 SPDT RF switch](./RF-Electronics/ADRF5020/ADRF5020-Gerbers.zip)
 
+## QubitEBLdesign
+
+To understand this part, you need to know: `Transmon Quantum Circuit`, `Electron-beam lithography (EBL)`, `GDSII file`.
+
+This is a python program that automatically generates an array of Transmon quantum circuits with varying parameters for Electron-beam lithography manufacturing. 
+
+## TemperatureControlBox
+
+To understand this part, you need to know: `Raspberry Pi`, `PID controller`, `Pulse-width modulation (PWM)`.
+
+This is a temperature control box to host RF electronic devices, to reduce the device noises caused by temperature fluctuation. [Read more here](./TemperatureControlBox/README.md).
