@@ -23,7 +23,7 @@ A GUI to read/write register values of the equipment is written using the Python
 
 ### Usage
 
-- In most cases (99.9999...% with 100 0s), you only need to modify the [`./LabMonitor/backend/getData.py`](./LabMonitor/backend/getData.py) file. One can easily see how it works.
+- You only need to modify the [`./LabMonitor/backend/getData.py`](./LabMonitor/backend/getData.py) file. One can easily see how it works.
 
 - After modifying `getData()` function, execute
 
