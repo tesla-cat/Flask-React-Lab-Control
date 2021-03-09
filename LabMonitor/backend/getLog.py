@@ -38,8 +38,9 @@ def getVarPressure(blocks):
 def getVarTemperature(blocks):
   return float(blocks[2])
 
-def getFilenames(logPath, tempCHs = [1, 2, 5, 6]):
-  date = datetime.today().strftime('%y-%m-%d')
+def getFilenames(logPath, tempCHs = [1, 2, 5, 6], date = None):
+  if date is None:
+    date = datetime.today().strftime('%y-%m-%d')
   presFile = r'%s\%s\maxigauge %s.log' % (logPath, date, date)
   tempFiles = [r'%s\log-data\192.168.109.188\%s\CH%d T %s.log' \
     % (logPath, date, i, date) for i in  tempCHs]

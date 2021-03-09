@@ -9,7 +9,7 @@ from getLog import parse, getFilenames, getVarPressure, getVarTemperature
 #================================================
 
 logPath = r'C:\Users\qcrew\Desktop\installed fridge software\log'
-presFile, tempFiles = getFilenames(logPath)
+presFile, tempFiles = getFilenames(logPath, date='21-02-01')
 sen = Sensor()
 
 def getData():
@@ -41,10 +41,11 @@ def getData():
       { 'l': 'T3 [K] still', 'y': tempArr3.tolist(), 'x': 3 },
       { 'l': 'T4 [K] MXC', 'y': tempArr4.tolist(), 'x': 4 },
 
-      # b'freq: 209, flow (L/min): 19, voltage:1.44, pressure (kPa): 384.12, temperature (\xc2\xbaC): 18.56\r'
-      { 'l': 'S1 [L/min] flow', 'y': sensArr[:, 1].tolist(), 'x': 5 },
-      { 'l': 'S2 [kPa] pressure', 'y': sensArr[:, 3].tolist(), 'x': 5 },
-      { 'l': 'S3 [C] temperature', 'y': sensArr[:, 4].tolist(), 'x': 5 },
+      # b'flow:3.91,water_pres:388.28,temp:18.62,air_pres:0.35,'
+      { 'l': 'S1 [L/min] flow', 'y': sensArr[:, 0].tolist(), 'x': 5 },
+      { 'l': 'S2 [kPa] water_pres', 'y': sensArr[:, 1].tolist(), 'x': 5 },
+      { 'l': 'S3 [C] temp', 'y': sensArr[:, 2].tolist(), 'x': 5 },
+      { 'l': 'S4 [kPa] air_pres', 'y': sensArr[:, 3].tolist(), 'x': 5 },
     ],
     'msg': 'updated: %s' % (t),
   }
