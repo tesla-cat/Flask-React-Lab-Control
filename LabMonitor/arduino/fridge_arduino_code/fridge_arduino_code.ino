@@ -27,7 +27,7 @@ DallasTemperature sensors(&oneWire);
 void setup(){
   Serial.begin(115200);
 
-  pinMode(WATER_FLOW_PIN, INPUT_PULLUP);
+  pinMode(WATER_FLOW_PIN, INPUT);
   attachInterrupt(digitalPinToInterrupt(WATER_FLOW_PIN), onInterrupt, RISING);
 }
 
@@ -35,7 +35,7 @@ void loop(){
   int newTime = millis();
   if(newTime - oldTime > 1000){
     // water flow
-    float freq = counter / (newTime - oldTime);
+    float freq = counter * 1000 / (newTime - oldTime);
     float flow = freq / 11; // L/min
     // water pres
     float water_volt = analogRead(WATER_PRES_PIN) * 3.3 / 4095; 
@@ -44,8 +44,12 @@ void loop(){
     sensors.requestTemperatures(); 
     float temp = sensors.getTempCByIndex(0); // C
     // air pres
-
-    say("flow",flow); say("water_pres",water_pres); say("temp",temp); Serial.print('\n');
+    float air_volt = analogRead(AIR_PRES_PIN) * 3.3 / 4095; 
+    float air_pres = (air_volt+0.24) * 25 * 6.89476; // kPa
+    
+    say("flow",flow); say("water_pres",water_pres); say("temp",temp); 
+    say("air_pres",air_pres);
+    Serial.print('\n');
     // reset
     counter = 0;
     oldTime = newTime;
