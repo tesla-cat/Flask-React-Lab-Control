@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "firebase": "^7.15.5",
+    "wrtc": "^0.4.5"
+  }
+}

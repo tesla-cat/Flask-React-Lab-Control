@@ -3,7 +3,10 @@ import gdspy
 import numpy as np 
 
 pi = np.pi
-
+'''
+general update needed to remove most if not all numbers
+replace with variables with informative names 
+'''
 def basePlate():
   circle = gdspy.Round([0,0], 1, tolerance=1e-6)
   return gdspy.slice(circle, -0.9, 0)[1]
@@ -26,6 +29,11 @@ def qubitC(
   jumpRadius = 1, jumpWidth = 1e-2, useJump = True,
   borderWidth = 1e-3,
 ):
+  """
+  separate layers through cutting
+  separate into two elements, thin lead near JJ and coarse features, 
+  need to be able to define overlap between the two as well.  
+  """
   ls, ws, jr, jw = lengths, widths, jumpRadius, jumpWidth
   c = gdspy.Curve(0, -np.sum(ls), tolerance=1e-6).H(-ws[0]/2)
   for i, l in enumerate(ls[:-1]):
@@ -49,6 +57,13 @@ def qubitC(
   return [p6, p8]
 
 def qubitL(length = 1e-2):
+  """
+  layers
+  absolute sizes
+  change name to bridge_free_JJ 
+  each individual feature needs to have its own layer
+  check old file for details 
+  """
   w1, x1, x2, x3, y1 = np.array([0.2, 0.2, 0.5, 1.5, 0.7]) 
   p1 = gdspy.FlexPath(
     [(x2,-y1), (-x1,-y1), (-x1,y1), (x2,y1)], w1,
@@ -63,7 +78,15 @@ def qubitL(length = 1e-2):
   scale = length / ( y1*2+w1 + w1/2 )
   return [x.scale(scale) for x in [p1, p2, p1b, p2b, rect2]]
 
+'''
+break from here and put the rest in a separate file, something 
+like test_pattern_1 
+'''
 def group1():
+  '''
+  all translations need to be automatically calcuated 
+  based on feature sizes and critical relevant dims
+  '''
   p1 = qubitC()
   p2 = qubitL()
   p3 = resonator().scale(0.2).translate(0, 13)
@@ -84,7 +107,11 @@ def group2():
   p2b = markerL().rotate(-pi/2).translate( 6, -3)
   p2c = markerL().rotate(pi/2 ).translate(-6, -9)
   p2d = markerL().rotate(pi   ).translate( 6, -9)
-  t1 = gdspy.Text('label', 0.5, [0,-3])
+  x = 10
+  '''
+  label needs to be moved to inside of the corner markers
+  '''
+  t1 = gdspy.Text('label %d nm' % (x), 0.5, [0,-3])
   return group1() + p1a+p1b+p1c+p1d + [p2a,p2b,p2c,p2d, t1]
 
 if __name__ == '__main__':
